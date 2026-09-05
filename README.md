@@ -6,7 +6,7 @@ The model is built using **Gradient Boosting Regression** and deployed using **S
 
 ## 🚀 Live Demo
 
-Coming soon...
+[Try the Laptop Price Predictor](https://laptop-price-predictor-1.streamlit.app/)
 
 ## 📌 Features
 
