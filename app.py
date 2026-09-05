@@ -10,10 +10,16 @@ st.title("Laptop Price Predictor")
 brand = st.selectbox("Brand",df["Company"].unique())
 Type = st.selectbox("Type",df["TypeName"].unique())
 Ram = st.selectbox("RAM",sorted(df["Ram"].unique()))
-Weight = st.number_input("Weight: ")
+Weight = st.number_input(
+    "Weight (kg): ",
+    min_value=0.5,
+    max_value=5.0,
+    value=2.0
+)
 touchscreen = st.selectbox("TouchScreen",["YES","NO"])
 ips = st.selectbox("IPS",["YES","NO"])
-screen_size = st.number_input("Screen Size: ")
+screen_size = st.number_input("Screen Size: ", min_value=10.0, max_value=20.0, value=15.6)
+
 resolution = st.selectbox("Screen Resolution",['1920x1080','1366x768','1600x900','3840x2160','3200x1800','2880x1800','2560x1600','2560x1440','2304x1440'])
 cpu = st.selectbox("CPU",df["Cpu_brand"].unique())
 hdd = st.selectbox("HDD(in GB)",sorted(df["HDD"].unique()))
@@ -22,7 +28,6 @@ gpu = st.selectbox("GPU",df["Gpu_brand"].unique())
 os = st.selectbox("OS",df["OS"].unique())
 
 if st.button("Predict Price"):
-    ppi = None
     if touchscreen == "YES":
         touchscreen = 1
     else:
@@ -36,7 +41,6 @@ if st.button("Predict Price"):
     x_res = int(resolution.split("x")[0])
     y_res = int(resolution.split("x")[1])
     ppi = ((x_res**2) + (y_res**2))**0.5/screen_size
-    query = np.array([brand,Type,Ram,Weight,touchscreen,ips,ppi,cpu,hdd,ssd,gpu,os])
 
     query = pd.DataFrame([{
     "Company": brand,
@@ -56,4 +60,4 @@ if st.button("Predict Price"):
 
     price = np.exp(prediction)
 
-    st.title(f"₹{price:,.0f}")
+    st.success(f"Predicted Price: ₹{price:,.0f}")
